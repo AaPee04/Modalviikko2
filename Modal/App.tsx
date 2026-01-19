@@ -1,9 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View, Alert, Modal } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { showAlert } from './utils.ts/alert';
+import { showAlert } from './utils/alert';
 
 export default function App() {
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const ok = () => {
     console.log('Ok pressed')
@@ -17,22 +20,74 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.centeredView}>
-        <View style={styles.container}>
-          <Pressable onPress={() => showAlert({ title: 'Test', message: 'This is message', onCancel: cancel, onOk: ok })}>
-            <Text>Open Alert</Text>
-          </Pressable>
-          <StatusBar style="auto" />
-        </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal on suljettu.');
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Moi Maailma Modalilta!</Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.textStyle}>Piilota Modal viesti</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+        <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}>
+          <Text style={styles.textStyle}>Näytä Modal viesti</Text>
+        </Pressable>
       </SafeAreaView>
     </SafeAreaProvider >
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  centeredView: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#ffffff',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#ff0000',
+  },
+  buttonClose: {
+    backgroundColor: '#008cff',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
