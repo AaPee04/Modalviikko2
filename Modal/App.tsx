@@ -54,14 +54,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f2f2f2',
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#b4bbff',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
-    shadowColor: '#ffffff',
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
       height: 2,
